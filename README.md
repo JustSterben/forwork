@@ -16,3 +16,5 @@
 ```bash
 git clone https://github.com/yourusername/barter-platform.git
 cd barter-platform
+![image](https://github.com/user-attachments/assets/35e6aeb7-08dc-40d4-9220-dd26f6822435)
+![Uploading image.png…]()
