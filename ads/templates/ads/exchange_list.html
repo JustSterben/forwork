@@ -1,0 +1,39 @@
+<h1>Мои предложения обмена</h1>
+
+<h2>Исходящие предложения</h2>
+<ul>
+  {% for p in proposals_sent %}
+    <li>
+      Вы предложили обмен:
+      <strong>{{ p.ad_sender.title }}</strong> → <strong>{{ p.ad_receiver.title }}</strong><br>
+      Комментарий: {{ p.comment }}<br>
+      Статус: {{ p.status }}
+    </li>
+  {% empty %}
+    <li>Нет исходящих предложений.</li>
+  {% endfor %}
+</ul>
+
+<hr>
+
+<h2>Входящие предложения</h2>
+<ul>
+  {% for p in proposals_received %}
+    <li>
+      Вам предложили обмен:
+      <strong>{{ p.ad_sender.title }}</strong> → <strong>{{ p.ad_receiver.title }}</strong><br>
+      Комментарий: {{ p.comment }}<br>
+      Статус: {{ p.status }}<br>
+
+      {% if p.status == 'pending' %}
+        <form method="post" action="{% url 'update_proposal_status' p.id %}">
+          {% csrf_token %}
+          <button name="status" value="accepted">Принять</button>
+          <button name="status" value="rejected">Отклонить</button>
+        </form>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>Нет входящих предложений.</li>
+  {% endfor %}
+</ul>

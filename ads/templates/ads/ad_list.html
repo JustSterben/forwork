@@ -1,0 +1,44 @@
+<h1>Объявления</h1>
+
+<p><a href="{% url 'create_ad' %}">+ Создать объявление</a></p>
+
+<form method="get">
+  <input type="text" name="q" placeholder="Поиск..." value="{{ request.GET.q }}">
+  <input type="text" name="category" placeholder="Категория" value="{{ request.GET.category }}">
+  
+  <select name="condition">
+    <option value="">Состояние</option>
+    <option value="new" {% if request.GET.condition == 'new' %}selected{% endif %}>Новый</option>
+    <option value="used" {% if request.GET.condition == 'used' %}selected{% endif %}>Б/у</option>
+  </select>
+
+  <button type="submit">Найти</button>
+</form>
+
+<hr>
+
+<ul>
+  {% for ad in ads %}
+    <li>
+      <a href="{% url 'ad_detail' ad.id %}">{{ ad.title }}</a>
+      — {{ ad.category }} ({{ ad.condition }})
+    </li>
+  {% empty %}
+    <li>Ничего не найдено</li>
+  {% endfor %}
+</ul>
+{% if page_obj.has_other_pages %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?q={{ request.GET.q }}&category={{ request.GET.category }}&condition={{ request.GET.condition }}&page={{ page_obj.previous_page_number }}">← Назад</a>
+    {% endif %}
+
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+      <a href="?q={{ request.GET.q }}&category={{ request.GET.category }}&condition={{ request.GET.condition }}&page={{ page_obj.next_page_number }}">Вперёд →</a>
+    {% endif %}
+  </div>
+{% endif %}
+
+<p><a href="{% url 'exchange_proposals' %}">📬 Мои предложения</a></p>

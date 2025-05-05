@@ -1,0 +1,21 @@
+<!-- ads/templates/ads/ad_detail.html -->
+<h1>{{ ad.title }}</h1>
+
+<p><strong>Описание:</strong> {{ ad.description }}</p>
+<p><strong>Категория:</strong> {{ ad.category }}</p>
+<p><strong>Состояние:</strong> {{ ad.condition }}</p>
+
+{% if ad.image_url %}
+  <p><img src="{{ ad.image_url }}" alt="Изображение товара" style="max-width: 400px;"></p>
+{% endif %}
+
+<a href="{% url 'ad_list' %}">← Назад к списку</a>
+
+{% if request.user == ad.user %}
+  <p>
+    <a href="{% url 'edit_ad' ad.id %}">✏️ Редактировать</a> |
+    <a href="{% url 'delete_ad' ad.id %}">🗑️ Удалить</a>
+  </p>
+{% endif %}
+
+<a href="{% url 'create_exchange_proposal' ad.id %}">💬 Предложить обмен</a>
